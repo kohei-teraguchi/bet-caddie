@@ -1,0 +1,23 @@
+{
+  "name": "golf-olympic",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {
+      "preserveRoot": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.path-intellisense",
+        "mhutchie.git-graph"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install"
+}
