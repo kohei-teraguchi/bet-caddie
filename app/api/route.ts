@@ -1,5 +1,5 @@
-import { db } from "@/lib/db"; // 以前作成したdb接続
-import { scoresTable } from "@/lib/schema"; // 後で作るスキーマ
+import { db } from "@/db"; // 以前作成したdb接続
+import { scoresTable } from "@/db/schema"; // 後で作るスキーマ
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
