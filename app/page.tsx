@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // 1. 弱い順に定義（Object.keys はこの順序を維持します）
 const MEDALS = {
@@ -25,6 +25,27 @@ export default function GolfScoreApp() {
       .fill(null)
       .map(() => Array(4).fill("NONE")),
   );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const res = await fetch("/api/save-score");
+        if (res.ok) {
+          const data = await res.json();
+          // DBにデータがあれば、useStateを上書きする
+          if (data && data.scores) {
+            setResults(data.scores);
+          }
+        }
+      } catch (error) {
+        console.error("データの読み込みに失敗しました", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
 
   // タップで次へ（重複はスキップ）
   const toggleMedal = (hole: number, player: number) => {
@@ -69,6 +90,10 @@ export default function GolfScoreApp() {
       console.error("Failed to save", error);
     }
   };
+
+  if (loading) {
+    return <div className="p-8 text-center text-gray-500">Data loding...</div>;
+  }
 
   return (
     <div className="p-4 font-sans max-w-4xl mx-auto">

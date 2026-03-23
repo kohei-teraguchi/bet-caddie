@@ -30,3 +30,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    // 1. ID=1 のレコードをピンポイントで取得
+    const result = await db
+      .select()
+      .from(scoresTable)
+      .where(eq(scoresTable.id, 1))
+      .limit(1);
+
+    // 2. データがあれば返し、なければ空の状態を返す
+    // フロントの scores.map が壊れないよう、構造を合わせるのが10年選手の嗜み
+    const scoresData = result[0]?.data || null;
+
+    return NextResponse.json({ scores: scoresData });
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
