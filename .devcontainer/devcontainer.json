@@ -5,7 +5,8 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers/features/git:1": {
       "preserveRoot": true
-    }
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "customizations": {
     "vscode": {
@@ -18,6 +19,6 @@
       ]
     }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [3000, 4983],
   "postCreateCommand": "npm install"
 }
