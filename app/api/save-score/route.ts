@@ -1,7 +1,7 @@
-import { db } from "@/db"; // 以前作成したdb接続
-import { scoresTable } from "@/db/schema"; // 後で作るスキーマ
-import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { db } from '@/db'; // 以前作成したdb接続
+import { scoresTable } from '@/db/schema'; // 後で作るスキーマ
+import { eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
@@ -26,19 +26,15 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Save Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('Save Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
 export async function GET() {
   try {
     // 1. ID=1 のレコードをピンポイントで取得
-    const result = await db
-      .select()
-      .from(scoresTable)
-      .where(eq(scoresTable.id, 1))
-      .limit(1);
+    const result = await db.select().from(scoresTable).where(eq(scoresTable.id, 1)).limit(1);
 
     // 2. データがあれば返し、なければ空の状態を返す
     // フロントの scores.map が壊れないよう、構造を合わせるのが10年選手の嗜み
@@ -46,8 +42,7 @@ export async function GET() {
 
     return NextResponse.json({ scores: scoresData });
   } catch (error) {
-    console.error("Fetch Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('Fetch Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-

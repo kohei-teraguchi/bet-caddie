@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // 1. 弱い順に定義（Object.keys はこの順序を維持します）
 const MEDALS = {
-  NONE: { label: "❌ なし", points: 0, className: "bg-white border-gray-200 text-gray-400" },
-  IRON: { label: "🏅 鉄", points: 1, className: "bg-slate-50 border-slate-300 text-slate-700" },
-  BRONZE: { label: "🥉 銅", points: 2, className: "bg-orange-50 border-orange-300 text-orange-700" },
-  SILVER: { label: "🥈 銀", points: 3, className: "bg-gray-50 border-gray-300 text-gray-700" },
-  GOLD: { label: "🥇 金", points: 4, className: "bg-yellow-50 border-yellow-400 text-yellow-800" },
+  NONE: { label: '❌ なし', points: 0, className: 'bg-white border-gray-200 text-gray-400' },
+  IRON: { label: '🏅 鉄', points: 1, className: 'bg-slate-50 border-slate-300 text-slate-700' },
+  BRONZE: { label: '🥉 銅', points: 2, className: 'bg-orange-50 border-orange-300 text-orange-700' },
+  SILVER: { label: '🥈 銀', points: 3, className: 'bg-gray-50 border-gray-300 text-gray-700' },
+  GOLD: { label: '🥇 金', points: 4, className: 'bg-yellow-50 border-yellow-400 text-yellow-800' },
   DIAMOND: {
-    label: "💎 ﾀﾞｲﾔ",
+    label: '💎 ﾀﾞｲﾔ',
     points: 5,
-    className: "bg-blue-50 border-blue-400 text-blue-700 font-bold shadow-inner",
+    className: 'bg-blue-50 border-blue-400 text-blue-700 font-bold shadow-inner',
   },
 } as const;
 
@@ -23,14 +23,14 @@ export default function GolfScoreApp() {
   const [scores, setResults] = useState<string[][]>(
     Array(18)
       .fill(null)
-      .map(() => Array(4).fill("NONE")),
+      .map(() => Array(4).fill('NONE')),
   );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetch("/api/save-score");
+        const res = await fetch('/api/save-score');
         if (res.ok) {
           const data = await res.json();
           // DBにデータがあれば、useStateを上書きする
@@ -39,7 +39,7 @@ export default function GolfScoreApp() {
           }
         }
       } catch (error) {
-        console.error("データの読み込みに失敗しました", error);
+        console.error('データの読み込みに失敗しました', error);
       } finally {
         setLoading(false);
       }
@@ -55,8 +55,8 @@ export default function GolfScoreApp() {
 
     // 排他制御：NONE/DIAMOND以外で、他の人が既に持っているメダルならスキップ
     while (
-      nextMedal !== "NONE" &&
-      nextMedal !== "DIAMOND" &&
+      nextMedal !== 'NONE' &&
+      nextMedal !== 'DIAMOND' &&
       scores[hole].some((m, p) => p !== player && m === nextMedal)
     ) {
       nextIndex = (nextIndex + 1) % MEDAL_ORDER.length;
@@ -80,14 +80,14 @@ export default function GolfScoreApp() {
   // スコアをDBに保存する関数
   const saveToDb = async (latestScores: string[][]) => {
     try {
-      await fetch("/api/save-score", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch('/api/save-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scores: latestScores }),
       });
-      console.log("Saved successfully");
+      console.log('Saved successfully');
     } catch (error) {
-      console.error("Failed to save", error);
+      console.error('Failed to save', error);
     }
   };
 
@@ -125,13 +125,13 @@ export default function GolfScoreApp() {
                       <button
                         onClick={() => toggleMedal(holeIdx, playerIdx)}
                         className={[
-                          "w-full py-4 px-1 rounded-lg text-xs border-2 transition-all duration-75",
-                          "active:scale-95 flex flex-col items-center justify-center gap-1",
+                          'w-full py-4 px-1 rounded-lg text-xs border-2 transition-all duration-75',
+                          'active:scale-95 flex flex-col items-center justify-center gap-1',
                           medalInfo.className,
-                        ].join(" ")}
+                        ].join(' ')}
                       >
-                        <span className="text-base leading-none">{medalInfo.label.split(" ")[0]}</span>
-                        <span className="scale-90">{medalInfo.label.split(" ")[1]}</span>
+                        <span className="text-base leading-none">{medalInfo.label.split(' ')[0]}</span>
+                        <span className="scale-90">{medalInfo.label.split(' ')[1]}</span>
                       </button>
                     </td>
                   );
@@ -142,9 +142,9 @@ export default function GolfScoreApp() {
           <tfoot className="sticky bottom-0 z-10">
             <tr
               className={[
-                "bg-emerald-100 font-bold border-t-2 border-emerald-500",
-                "shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]",
-              ].join(" ")}
+                'bg-emerald-100 font-bold border-t-2 border-emerald-500',
+                'shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]',
+              ].join(' ')}
             >
               <td className="p-3 text-center text-emerald-800 border-r border-emerald-200">Total</td>
               {[0, 1, 2, 3].map((pIdx) => (
